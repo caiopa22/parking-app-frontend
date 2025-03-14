@@ -1,17 +1,47 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import RegisterPage from './pages/registerPage';
+import { ChakraProvider, Toaster } from '@chakra-ui/react';
+import { Provider } from './components/ui/provider';
+import ClientsPage from './pages/clientsPage';
+import AdminPage from './pages/adminPage';
+import ParkingSlotsPage from './pages/parkingSlotsPage';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter([
+  {
+    path: "/clients",
+    element: <ClientsPage />,
+  },
+  {
+    path: "/parking-slots",
+    element: <ParkingSlotsPage />,
+  },
+  {
+    path: "/",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/admin",
+    element: <AdminPage />,
+  }
+]);
+
+const root = createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider >
+    <RouterProvider router={router}>
+      <Routes>
+        <Route path="/clients" element={<ClientsPage />} />
+        <Route path="/parking-slots" element={<ParkingSlotsPage />} />
+        <Route path="/" element={<RegisterPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </RouterProvider>
+  </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
